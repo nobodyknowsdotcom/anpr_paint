@@ -20,7 +20,7 @@ def recognize_and_paint(imageCv):
         perimeter = cv2.arcLength(contour, True)
 
         if perimeter >= 300:
-            approximationAccuracy = 0.000001 * perimeter
+            approximationAccuracy = 0.0002 * perimeter
         else:
             approximationAccuracy = 0.02 * perimeter
 
@@ -39,13 +39,13 @@ def recognize_and_paint(imageCv):
 
     plateBackgroundColor = findMostOccurringColor(plateImage)
 
-    if checkBrighntess(plateBackgroundColor, 90):
+    if not checkBrighntess(plateBackgroundColor, 150):
         print("small brightness: %.1f" % (np.mean(plateBackgroundColor)))
         return imageCv
 
-    tempContours3 = cv2.drawContours(imageCv.copy(), [plateContour], -1, (255, 0, 0), -1)
+    result = cv2.drawContours(imageCv.copy(), [plateContour], -1, plateBackgroundColor, -1)
 
-    return tempContours3
+    return result
 
 
 def findMostOccurringColor(cvImage) -> (int, int, int):
@@ -71,7 +71,7 @@ def findMostOccurringColor(cvImage) -> (int, int, int):
 
 
 def checkBrighntess (BGR, value):
-    return BGR[0] <= value or BGR[1] <= value and BGR[2] <= value
+    return sum(BGR) >= value*3
 
 
 directory = os.fsencode("./samples/")
