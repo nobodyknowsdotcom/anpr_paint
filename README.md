@@ -1,4 +1,4 @@
-#№ Automatic Number Plate Recognition (ANPR)
+# Automatic Number Plate Recognition (ANPR)
 ![](src/readmeimg1.png)
 
 ### This program has used:
