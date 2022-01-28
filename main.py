@@ -26,13 +26,13 @@ def recognize_and_paint(file):
     for contour in contours:
         perimeter = cv2.arcLength(contour, True)
 
-        approximationAccuracy = 0.01718 * perimeter
+        approximationAccuracy = 0.02 * perimeter
 
         approximation = cv2.approxPolyDP(contour, approximationAccuracy, True)
 
         x, y, w, h = cv2.boundingRect(contour)
 
-        if (len(approximation) == 4 or len(approximation) == 5) and perimeter < 1000 and 0.7 < w/h < 4.9:
+        if len(approximation) == 4 and perimeter < 1000 and 0.7 < w/h < 4.9:
             rectangleContours.append(contour)
 
     if len(rectangleContours) > 0:
@@ -45,7 +45,7 @@ def recognize_and_paint(file):
 
     plateBackgroundColor = findMostOccurringColor(plateImage)
 
-    if not checkBrighntess(plateBackgroundColor, 120):
+    if not checkBrighntess(plateBackgroundColor, 100):
         return imageCv
 
     result = cv2.drawContours(imageCv.copy(), [plateContour], -1, plateBackgroundColor, -1)
